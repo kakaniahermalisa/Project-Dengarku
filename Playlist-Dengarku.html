@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DengarKu</title>
+  <script src="https://unpkg.com/lucide@0.263.1/dist/umd/lucide.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff9eb5, #ffb3c6);
+      min-height: 100vh;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: #ff9eb5;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .search-bar {
+      background: rgba(255, 255, 255, 0.8);
+      border: none;
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-size: 14px;
+      width: 300px;
+      outline: none;
+    }
+
+    /* Updated main content styles */
+    main {
+      padding: 0 24px; /* px-6 */
+    }
+
+    .main-section {
+      display: flex;
+      gap: 24px; /* gap-6 */
+      margin-bottom: 24px; /* mb-6 */
+    }
+
+    /* Updated sidebar styles */
+    .sidebar {
+      width: 208px; /* w-52 */
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .sidebar nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .sidebar nav ul > li {
+      margin-bottom: 8px; /* space-y-2 */
+    }
+
+    .sidebar-item {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 8px 0;
+    }
+
+    .playlist-toggle-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 8px 0;
+      transition: color 0.2s ease;
+    }
+
+    .playlist-toggle-btn:hover {
+      color: #fce7f3;
+    }
+
+    .playlist-toggle-btn .icon-text {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .playlist-dropdown {
+      margin-left: 24px; /* ml-6 */
+      margin-top: 8px; /* mt-2 */
+      display: none;
+    }
+
+    .playlist-dropdown.show {
+      display: block;
+    }
+
+    .playlist-dropdown li {
+      margin-bottom: 8px; /* space-y-2 */
+    }
+
+    .playlist-btn {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 4px 0;
+      font-size: 14px;
+      transition: color 0.2s ease;
+    }
+
+    .playlist-btn:hover {
+      color: #fce7f3;
+    }
+
+    .playlist-btn.active {
+      color: #fce7f3;
+      font-weight: bold;
+    }
+
+    /* Updated main content styles */
+    .main-content {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      padding: 24px; /* p-6 */
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Playlist Info Section */
+    .playlist-info-section {
+      margin-bottom: 24px; /* mb-6 */
+    }
+
+    .playlist-header {
+      display: flex;
+      align-items: center;
+      gap: 8px; /* gap-2 */
+      color: #ff9eb5; /* text-pink-500 */
+      margin-bottom: 8px; /* mb-2 */
+    }
+
+    .playlist-header span:first-child {
+      font-size: 18px;
+    }
+
+    .playlist-header span:last-child {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .playlist-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px; /* gap-4 */
+    }
+
+    .play-all-btn {
+      background: #f472b6; /* bg-pink-400 */
+      color: white;
+      border: none;
+      border-radius: 50%;
+      padding: 12px;
+      cursor: pointer;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      transition: background-color 0.2s ease;
+    }
+
+    .play-all-btn:hover {
+      background: #ec4899; /* hover:bg-pink-500 */
+    }
+
+    .play-all-btn svg {
+      width: 24px;
+      height: 24px;
+      margin-left: 2px;
+    }
+
+    .playlist-details h2 {
+      font-size: 24px; /* text-2xl */
+      font-weight: bold;
+      color: #1f2937; /* text-gray-800 */
+      margin-bottom: 4px;
+    }
+
+    .playlist-stats {
+      color: #4b5563; /* text-gray-600 */
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .playlist-artist {
+      color: #6b7280; /* text-gray-500 */
+      font-size: 14px;
+    }
+
+    /* Song list styles remain the same */
+    .song-list {
+      background: #ff9eb5;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .song-list-header {
+      display: flex;
+      padding: 10px 15px;
+      background: rgba(255, 255, 255, 0.1);
+      font-weight: bold;
+      color: white;
+      font-size: 12px;
+    }
+
+    .song-number { width: 30px; }
+    .song-title-header { flex: 2; }
+    .song-album-header { flex: 1; }
+    .song-duration-header { width: 50px; text-align: center; }
+
+    .song-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .song-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .song-item:last-child {
+      border-bottom: none;
+    }
+
+    .song-item.playing {
+      background: rgba(255, 255, 255, 0.2);
+      border-left: 4px solid white;
+    }
+
+    .song-cover {
+      width: 30px;
+      height: 30px;
+      background: #ddd;
+      border-radius: 5px;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      overflow: hidden;
+    }
+
+    .song-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .song-info {
+      flex: 2;
+    }
+
+    .song-name {
+      color: white;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .song-artist {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 11px;
+    }
+
+    .song-album {
+      flex: 1;
+      color: white;
+      font-size: 12px;
+    }
+
+    .song-duration {
+      color: white;
+      font-size: 12px;
+      width: 50px;
+      text-align: center;
+    }
+
+    .icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Transition for dropdown icon */
+    #dropdown-icon {
+      transition: transform 0.3s ease;
+    }
+
+    /* Loading state */
+    .loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* Now Playing indicator */
+    .now-playing {
+      color: #4ade80;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">DengarKu</div>
+    <input type="text" class="search-bar" placeholder="Cari lagu...">
+  </div>
+
+ <main class="px-6">
+    <section class="main-section">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <nav>
+          <ul>
+            <div class="sidebar-item" onclick="goHome()"></div>
+      <a href="Musicdengarkucontoh1.html">🏠 Beranda
+    </a>
+              <button onclick="toggleDropdown()" class="playlist-toggle-btn">
+                <span class="icon-text">
+                  <i data-lucide="music" class="icon">🎵</i> Playlist
+                </span>
+                <i data-lucide="chevron-down" id="dropdown-icon" class="icon">▼</i>
+              </button>
+              <ul id="playlist-dropdown" class="playlist-dropdown">
+                <li><button onclick="setPlaylist('nadin')" class="playlist-btn nadin active">Nadin Amizah</button></li>
+                <li><button onclick="setPlaylist('olivia')" class="playlist-btn olivia">Olivia Rodrigo</button></li>
+                <li><button onclick="setPlaylist('arctic')" class="playlist-btn arctic">Arctic Monkeys</button></li>
+                <li><button onclick="setPlaylist('twice')" class="playlist-btn twice">Twice</button></li>
+                <li><button onclick="setPlaylist('lana')" class="playlist-btn lana">Lana Del Rey</button></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Playlist Info -->
+        <div class="playlist-info-section">
+          <div class="playlist-header">
+            <span>♥</span>
+            <span>Playlist</span>
+          </div>
+          
+          <div class="playlist-controls">
+            <button class="play-all-btn" onclick="playAll()">
+              <i data-lucide="play" style="fill: currentColor;">▶</i>
+            </button>
+            
+            <div class="playlist-details">
+              <h2 id="playlist-title">Cari apa?</h2>
+              <p id="playlist-stats" class="playlist-stats">Dengarku dari aku untuk aku</p>
+              <p id="playlist-artist" class="playlist-artist">Nikmati lagumu</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Song List -->
+        <div class="song-list" id="song-list">
+          <div class="song-list-header">
+            <div class="song-number">#</div>
+            <div class="song-title-header">Judul</div>
+            <div class="song-album-header">Album</div>
+            <div class="song-duration-header">⏱</div>
+          </div>
+          <!-- Songs will be populated here dynamically -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Playlist data - Updated with Arctic Monkeys instead of Taylor Swift
+    const playlists = {
+      nadin: {
+        name: "Untuk Dunia, Cinta, dan Kotornya",
+        info: "5 Lagu • 23 menit 59 detik",
+        artist: "Playlist - Nadin Amizah",
+        songs: [
+          { 
+            name: "Bertaut", 
+            artist: "Nadin Amizah", 
+            album: "Selamat Ulang Tahun", 
+            duration: "5:10", 
+            src: "BertautNadinAmizah.mp3",
+            cover: "BertautNadinz2.jpeg"
+          },
+          { 
+            name: "Semua Aku Dirayakan", 
+            artist: "Nadin Amizah", 
+            album: "Untuk Dunia, Cinta, dan Kotornya", 
+            duration: "5:11", 
+            src: "SemuaAkuDirayakanNadin.mp3",
+            cover: "2NadinAmizah.jpeg"
+          },
+          { 
+            name: "Kekal", 
+            artist: "Nadin Amizah", 
+            album: "Untuk Dunia, Cinta, dan Kotornya", 
+            duration: "4:41", 
+            src: "KekalNadinAmizah.mp3",
+            cover: "2NadinAmizah.jpeg"
+          },
+          { 
+            name: "Berpayung Tuhan", 
+            artist: "Nadin Amizah", 
+            album: "Untuk Dunia, Cinta, dan Kotornya", 
+            duration: "4:58", 
+            src: "BerpayungTuhanNadin.mp3",
+            cover: "BerpayungTuhannnNadin.jpg"
+          },
+          { 
+            name: "Di Akhir Perang", 
+            artist: "Nadin Amizah", 
+            album: "Untuk Dunia, Cinta, dan Kotornya", 
+            duration: "3:59", 
+            src: "DiAkhirPerangNadin.mp3",
+            cover: "DiAkhirPerangg.jpeg"
+          }
+        ]
+      },
+      olivia: {
+        name: "SOUR",
+        info: "5 Lagu • 34 menit",
+        artist: "Playlist - Olivia Rodrigo",
+        songs: [
+          { 
+            name: "Happier", 
+            artist: "Olivia Rodrigo", 
+            album: "SOUR", 
+            duration: "2:55", 
+            src: "HappierOliviaRodrigo.mp3",
+            cover: "OliviaSourRodrigo.jpg"
+          },
+          { 
+            name: "deja vu", 
+            artist: "Olivia Rodrigo", 
+            album: "SOUR", 
+            duration: "3:35", 
+            src: "OliviaRodrigodejavu.mp3",
+            cover: "OliviaSourRodrigo.jpg"
+          },
+          { 
+            name: "good 4 u", 
+            artist: "Olivia Rodrigo", 
+            album: "SOUR", 
+            duration: "2:58", 
+            src: "good4u-OliviaRodrigo.mp3",
+            cover: "OliviaSourRodrigo.jpg"
+          },
+          { 
+            name: "Favorit Crime", 
+            artist: "Olivia Rodrigo", 
+            album: "SOUR", 
+            duration: "3:09", 
+            src: "FavoriteCrimeOlivia.mp3",
+            cover: "OliviaSourRodrigo.jpg"
+          },
+          { 
+            name: "Stranger", 
+            artist: "Olivia Rodrigo", 
+            album: "GUTS", 
+            duration: "3:13", 
+            src: "OliviaRodrigtranger.mp3",
+            cover: "StrangerOliviaRodrigo.jpg"
+          }
+        ]
+      },
+      arctic: {
+        name: "Arctic Monkeys",
+        info: "5 Lagu • 16 menit 9 detik",
+        artist: "Playlist - AM",
+        songs: [
+          { 
+            name: "No. 1 Party Anthem", 
+            artist: "Arctic Monkeys", 
+            album: "AM", 
+            duration: "4:03", 
+            src: "No.1PartyAnthemArcticMonkeys.mp3",
+            cover: "ArcticMonkeysPoto.png"
+          },
+          { 
+            name: "Why'd You Only Call Me When You're High?", 
+            artist: "Arctic Monkeys", 
+            album: "AM", 
+            duration: "2:40", 
+            src: "Whydyouonlycall.mp3",
+            cover: "ArcticMonkeysPoto.png"
+          },
+          { 
+            name: "R U Mine?", 
+            artist: "Arctic Monkeys", 
+            album: "AM", 
+            duration: "1:45", 
+            src: "RUMineArcticMonkeys.mp3",
+            cover: "ArcticMonkeysPoto.png"
+          },
+          { 
+            name: "505", 
+            artist: "Arctic Monkeys", 
+            album: "AM", 
+            duration: "4:14", 
+            src: "505ArcticMonkeys.mp3",
+            cover: "ArcticMonkeysPoto.png"
+          },
+          { 
+            name: "Arabella", 
+            artist: "Arctic Monkeys", 
+            album: "AM", 
+            duration: "3:27", 
+            src: "Arabella-ArcticMonkeys.mp3",
+            cover: "ArcticMonkeysPoto.png"
+          }
+        ]
+      },
+      twice: {
+        name: "Twice",
+        info: "5 Lagu • 16 menit 9 detik",
+        artist: "Playlist - Twice",
+        songs: [
+          { 
+            name: "Cheer Up", 
+            artist: "Twice", 
+            album: "Page Two", 
+            duration: "2:20", 
+            src: "CHEERUP-Twice.mp3",
+            cover: "CheerUpTwice.jpeg"
+          },
+          { 
+            name: "The Feels", 
+            artist: "Twice", 
+            album: "Formula of Love", 
+            duration: "3:18", 
+            src: "TheFeels-Twice.mp3",
+            cover: "TheFeelsTwice.jpeg"
+          },
+          { 
+            name: "Fancy", 
+            artist: "Twice", 
+            album: "TWICE 7TH MINI ALBUM", 
+            duration: "3:32", 
+            src: "TwiceFancyy.mp3",
+            cover: "FancyTwice.jpeg"
+          },
+          { 
+            name: "Signal", 
+            artist: "Twice", 
+            album: "4th Mini Album", 
+            duration: "3:39", 
+            src: "SignalTwice.mp3",
+            cover: "TWICE-Signal.jpg"
+          },
+          { 
+            name: "Alcohol-Free", 
+            artist: "Twice", 
+            album: "Taste Of Love", 
+            duration: "3:30", 
+            src: "TwiceAlcoholFree.mp3",
+            cover: "AlcoholTwice.jpg"
+          }
+        ]
+      },
+      lana: {
+        name: "Lana Del Rey",
+        info: "5 Lagu • 16 menit 9 detik",
+        artist: "Playlist - Lana Del Rey",
+        songs: [
+          { 
+            name: "Margaret", 
+            artist: "Lana Del Rey", 
+            album: "Did You Know That There's a Tunnel Under Ocean Blvd", 
+            duration: "5:40", 
+            src: "LanaDelRey-Margaret.mp3",
+            cover: "MargaretLana.jpeg"
+          },
+          { 
+            name: "Cinnamon Girl", 
+            artist: "Lana Del Rey", 
+            album: "Norman Fking Rockwell!", 
+            duration: "5:00", 
+            src: "LanaCinnamonGirl.mp3",
+            cover: "CinnamonGirlLana.jpeg"
+          },
+          { 
+            name: "Say Yes To Heaven", 
+            artist: "Lana Del Rey", 
+            album: "Say Yes To Heaven", 
+            duration: "3:36", 
+            src: "SayYesHeavenLana.mp3",
+            cover: "LanaSayYestoMe.png"
+          },
+          { 
+            name: "Summertime Sadness", 
+            artist: "Lana Del Rey", 
+            album: "Born To Die", 
+            duration: "4:25", 
+            src: "Summertime-Sadness.mp3",
+            cover: "LanaDelrey.jpeg"
+          },
+          { 
+            name: "Sad Girl", 
+            artist: "Lana Del Rey", 
+            album: "Ultraviolence", 
+            duration: "5:18", 
+            src: "SadgirllllLana.mp3",
+            cover: "LanaSadeuy.jpeg"
+          }
+        ]
+      },
+    };
+
+    // Global variables
+    let currentPlaylist = 'nadin';
+    let currentSongIndex = -1;
+    let currentAudio = null;
+
+    // Initialize Lucide icons with better error handling
+    function initLucideIcons() {
+      try {
+        if (typeof lucide !== 'undefined' && lucide.createIcons) {
+          lucide.createIcons();
+          console.log('✅ Lucide icons initialized successfully');
+          
+          // Hide fallback text after successful initialization
+          const fallbackIcons = document.querySelectorAll('[data-lucide]');
+          fallbackIcons.forEach(icon => {
+            if (icon.innerHTML.trim()) {
+              // If Lucide worked, the icon should now contain SVG
+              const svg = icon.querySelector('svg');
+              if (svg) {
+                icon.innerHTML = ''; // Clear fallback text
+                icon.appendChild(svg);
+              }
+            }
+          });
+        } else {
+          console.log('❌ Lucide not ready, using fallback icons');
+        }
+      } catch (error) {
+        console.error('❌ Error initializing Lucide:', error);
+      }
+    }
+
+    // Multiple initialization attempts
+    setTimeout(initLucideIcons, 50);
+    setTimeout(initLucideIcons, 200);
+    setTimeout(initLucideIcons, 500);
+    
+    document.addEventListener('DOMContentLoaded', initLucideIcons);
+    window.addEventListener('load', initLucideIcons);
+
+    // Initialize page
+    function initializePage() {
+      setPlaylist(currentPlaylist);
+      initLucideIcons();
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById('playlist-dropdown');
+      const icon = document.getElementById('dropdown-icon');
+      
+      if (dropdown.classList.contains('show')) {
+        dropdown.classList.remove('show');
+        icon.style.transform = 'rotate(0deg)';
+      } else {
+        dropdown.classList.add('show');
+        icon.style.transform = 'rotate(180deg)';
+      }
+    }
+
+    function setPlaylist(playlistKey) {
+      const playlist = playlists[playlistKey];
+      if (!playlist) return;
+
+      // Stop current audio if playing
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+        currentSongIndex = -1;
+      }
+
+      // Update current playlist
+      currentPlaylist = playlistKey;
+
+      // Update active button
+      document.querySelectorAll('.playlist-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.playlist-btn.${playlistKey}`).classList.add('active');
+
+      // Update playlist info
+      document.getElementById('playlist-title').textContent = playlist.name;
+      document.getElementById('playlist-stats').textContent = playlist.info;
+      document.getElementById('playlist-artist').textContent = playlist.artist;
+
+      // Update song list
+      const songList = document.getElementById('song-list');
+      const header = songList.querySelector('.song-list-header');
+      songList.innerHTML = '';
+      songList.appendChild(header);
+
+      playlist.songs.forEach((song, index) => {
+        const songItem = document.createElement('div');
+        songItem.className = 'song-item';
+        songItem.onclick = () => playSong(index);
+        
+        const coverContent = song.cover ? 
+          `<img src="${song.cover}" alt="Cover ${song.name}" style="width:100%; height:100%; object-fit: cover;">` : 
+          '🎵';
+        
+        songItem.innerHTML = `
+          <div class="song-cover">${coverContent}</div>
+          <div class="song-info">
+            <div class="song-name">${song.name}</div>
+            <div class="song-artist">${song.artist}</div>
+          </div>
+          <div class="song-album">${song.album}</div>
+          <div class="song-duration">${song.duration}</div>
+          <audio class="audio-player" src="${song.src}"></audio>
+        `;
+        songList.appendChild(songItem);
+      });
+
+      // Update play all button
+      const playAllBtn = document.querySelector('.play-all-btn i');
+      if (playAllBtn) {
+        playAllBtn.textContent = '▶';
+        playAllBtn.setAttribute('data-lucide', 'play');
+      }
+
+      // Reinitialize Lucide icons for new content
+      setTimeout(initLucideIcons, 100);
+    }
+
+    function playSong(index) {
+      const playlist = playlists[currentPlaylist];
+      const audios = document.querySelectorAll('.audio-player');
+      const songItems = document.querySelectorAll('.song-item');
+      const playAllBtn = document.querySelector('.play-all-btn i');
+
+      // Stop current audio if playing
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+
+      // Remove playing state from all songs
+      songItems.forEach(item => item.classList.remove('playing'));
+
+      // If clicking the same song that's already selected, toggle play/pause
+      if (currentSongIndex === index && currentAudio) {
+        if (currentAudio.paused) {
+          currentAudio.play();
+          songItems[index].classList.add('playing');
+          if (playAllBtn) {
+            playAllBtn.textContent = '⏸';
+            playAllBtn.setAttribute('data-lucide', 'pause');
+            initLucideIcons();
+          }
+        } else {
+          currentAudio.pause();
+          songItems[index].classList.remove('playing');
+          if (playAllBtn) {
+            playAllBtn.textContent = '▶';
+            playAllBtn.setAttribute('data-lucide', 'play');
+            initLucideIcons();
+          }
+        }
+        return;
+      }
+
+      // Set new current song
+      currentSongIndex = index;
+      currentAudio = audios[index];
+
+      // Add playing state to current song
+      songItems[index].classList.add('playing');
+
+      // Play the audio
+      currentAudio.play();
+
+      // Update play all button
+      if (playAllBtn) {
+        playAllBtn.textContent = '⏸';
+        playAllBtn.setAttribute('data-lucide', 'pause');
+        initLucideIcons();
+      }
+
+      // Add event listeners
+      currentAudio.addEventListener('ended', () => {
+        songItems[index].classList.remove('playing');
+        // Auto play next song
+        const nextIndex = (index + 1) % playlist.songs.length;
+        if (nextIndex !== index) {
+          setTimeout(() => playSong(nextIndex), 500);
+        } else {
+          // Reset play all button when playlist ends
+          if (playAllBtn) {
+            playAllBtn.textContent = '▶';
+            playAllBtn.setAttribute('data-lucide', 'play');
+            initLucideIcons();
+          }
+          currentSongIndex = -1;
+          currentAudio = null;
+        }
+      });
+    }
+
+    function playAll() {
+      const playlist = playlists[currentPlaylist];
+      const playAllBtn = document.querySelector('.play-all-btn i');
+
+      if (currentAudio && !currentAudio.paused) {
+        // Pause current song
+        currentAudio.pause();
+        const songItems = document.querySelectorAll('.song-item');
+        songItems.forEach(item => item.classList.remove('playing'));
+        
+        if (playAllBtn) {
+          playAllBtn.textContent = '▶';
+          playAllBtn.setAttribute('data-lucide', 'play');
+          initLucideIcons();
+        }
+      } else {
+        // Play first song or resume current
+        if (currentSongIndex === -1) {
+          playSong(0);
+        } else {
+          playSong(currentSongIndex);
+        }
+      }
+    }
+
+    function goHome() {
+      alert('Ke halaman beranda');
+    }
+
+    function logout() {
+      alert('Keluar dari akun');
+    }
+
+    document.querySelector('.search-bar').addEventListener('input', function(e) {
+  const searchTerm = e.target.value.trim().toLowerCase();
+  const playlist = playlists[currentPlaylist];
+  const songList = document.getElementById('song-list');
+  const header = songList.querySelector('.song-list-header');
+
+  // Bersihkan daftar lagu lama (tapi simpan header)
+  songList.innerHTML = '';
+  songList.appendChild(header);
+
+  // Filter lagu sesuai kata kunci
+  const filteredSongs = playlist.songs.filter(song => 
+    song.name.toLowerCase().includes(searchTerm) || 
+    song.artist.toLowerCase().includes(searchTerm) ||
+    song.album.toLowerCase().includes(searchTerm)
+  );
+
+  // Tampilkan hasil pencarian
+  filteredSongs.forEach((song, index) => {
+    const songItem = document.createElement('div');
+    songItem.className = 'song-item';
+    songItem.onclick = () => playSong(index);
+
+    const coverContent = song.cover ? 
+      `<img src="${song.cover}" alt="Cover ${song.name}" style="width:100%; height:100%; object-fit: cover;">` : 
+      '🎵';
+
+    songItem.innerHTML = `
+      <div class="song-cover">${coverContent}</div>
+      <div class="song-info">
+        <div class="song-name">${song.name}</div>
+        <div class="song-artist">${song.artist}</div>
+      </div>
+      <div class="song-album">${song.album}</div>
+      <div class="song-duration">${song.duration}</div>
+      <audio class="audio-player" src="${song.src}"></audio>
+    `;
+    songList.appendChild(songItem);
+  });
+
+  // Jika kosong, tampilkan semua lagu kembali
+  if (searchTerm === '') {
+    setPlaylist(currentPlaylist);
+  }
+});
+
+  </script>
+
+</body>
+</html>

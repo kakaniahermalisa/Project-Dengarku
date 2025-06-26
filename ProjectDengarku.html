@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page - Dengarku</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poetsen+One&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-image: url("BackgroundDengarku.png");
+      background-color: #cccccc;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      font-family: 'Montserrat', Arial, sans-serif;
+      color: #ff83a6;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Musical notes background decoration */
+    .music-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .music-note {
+      position: absolute;
+      color: rgba(255, 182, 193, 0.2);
+      font-size: 2rem;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .music-note:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+    .music-note:nth-child(2) { top: 20%; right: 20%; animation-delay: 1s; }
+    .music-note:nth-child(3) { bottom: 30%; left: 10%; animation-delay: 2s; }
+    .music-note:nth-child(4) { bottom: 20%; right: 15%; animation-delay: 3s; }
+    .music-note:nth-child(5) { top: 60%; left: 5%; animation-delay: 4s; }
+    .music-note:nth-child(6) { top: 80%; right: 25%; animation-delay: 5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.2; }
+      50% { transform: translateY(-20px) rotate(10deg); opacity: 0.4; }
+    }
+
+    /* Treble clef decorations */
+    .treble-clef {
+      position: absolute;
+      font-size: 3rem;
+      color: rgba(255, 105, 180, 0.15);
+      z-index: 0;
+    }
+
+    .treble-left {
+      bottom: 15%;
+      left: 8%;
+      transform: rotate(-15deg);
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    .treble-right {
+      top: 20%;
+      right: 10%;
+      transform: rotate(15deg);
+      animation: pulse 4s ease-in-out infinite 2s;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1) rotate(-15deg); opacity: 0.15; }
+      50% { transform: scale(1.1) rotate(-10deg); opacity: 0.3; }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+      z-index: 10;
+      position: relative;
+    }
+
+    .logo {
+      width: 210px;
+      height: 210px;
+      display: block;
+      margin: 0 auto 16px auto;
+    }
+
+    .poetsen-one-regular {
+      font-family: 'Poetsen One', cursive;
+      font-weight: 400;
+      font-style: normal;
+      text-align: center;
+      margin: 0;
+    }
+
+    .main-title {
+      font-size: 40px;
+      margin-bottom: 8px;
+      text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+    }
+
+    .subtitle {
+      font-size: 18px;
+      margin-bottom: 24px;
+      opacity: 0.9;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: 24px;
+      box-shadow: 0 4px 24px rgba(255, 209, 220, 0.35);
+      padding: 32px;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 16px;
+      z-index: 10;
+      position: relative;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 182, 193, 0.2);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+
+    .login-container label {
+      color: #ff7fa3;
+      font-weight: bold;
+      margin-top: 12px;
+      margin-bottom: 4px;
+      display: block;
+      font-size: 15px;
+      letter-spacing: 1px;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 14px 18px;
+      margin: 6px 0 14px 0;
+      border: none;
+      border-radius: 25px;
+      background: #ffb6c1;
+      font-size: 16px;
+      color: #333;
+      outline: none;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+      box-shadow: 0 2px 8px rgba(255, 182, 193, 0.2);
+    }
+
+    .login-input:focus {
+      box-shadow: 0 0 0 2px #ff83a6, 0 4px 12px rgba(255, 131, 166, 0.3);
+      transform: translateY(-2px);
+      background: #ffc0cb;
+    }
+
+    .login-input::placeholder {
+      color: rgba(51, 51, 51, 0.6);
+    }
+
+    .forgot-password {
+      font-size: 13px;
+      color: #cc3366;
+      margin: -10px 0 10px auto;
+      text-align: right;
+    }
+
+    .forgot-password a {
+      color: #cc3366;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .forgot-password a:hover {
+      color: #ff1493;
+      text-decoration: underline;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px 0;
+      margin: 10px 0 0 0;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(45deg, #ff7fa3, #ff5b8a);
+      color: #111;
+      font-size: 18px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      box-shadow: 0 2px 8px rgba(255, 209, 220, 0.35);
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-btn:hover {
+      background: linear-gradient(45deg, #ff5b8a, #ff1493);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(255, 91, 138, 0.4);
+    }
+
+    .login-btn:active {
+      transform: translateY(0px);
+    }
+
+    .login-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .login-btn:hover::before {
+      left: 100%;
+    }
+
+    .separator {
+      display: flex;
+      align-items: center;
+      margin: 24px 0 12px 0;
+      width: 100%;
+    }
+
+    .separator-line {
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #eee, transparent);
+      border: none;
+    }
+
+    .separator-text {
+      margin: 0 12px;
+      color: #444;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 4px 8px;
+      border-radius: 12px;
+    }
+
+    .register-btn {
+      width: 100%;
+      padding: 12px 0;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(45deg, #fff, #f8f8f8);
+      color: #ff7fa3;
+      font-size: 17px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      box-shadow: 0 2px 8px rgba(255, 209, 220, 0.35);
+      margin-top: 8px;
+      border: 2px solid rgba(255, 127, 163, 0.3);
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    .register-btn:hover {
+      background: linear-gradient(45deg, #f8f8f8, #f0f0f0);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(255, 127, 163, 0.25);
+      border-color: #ff7fa3;
+    }
+
+    /* Responsive design */
+    @media (max-width: 480px) {
+      .logo {
+        width: 180px;
+        height: 180px;
+      }
+      
+      .main-title {
+        font-size: 32px;
+      }
+      
+      .login-container {
+        padding: 24px;
+      }
+      
+      .music-note, .treble-clef {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Loading animation */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background decorations -->
+  <div class="music-bg">
+    <div class="music-note">♪</div>
+    <div class="music-note">♫</div>
+    <div class="music-note">♪</div>
+    <div class="music-note">♬</div>
+    <div class="music-note">♫</div>
+    <div class="music-note">♪</div>
+  </div>
+
+  <div class="treble-clef treble-left">𝄞</div>
+  <div class="treble-clef treble-right">𝄞</div>
+
+  <div class="header">
+    <img src="DengarrAku.png" alt="Dengarku Logo" class="logo">
+    <h1 class="poetsen-one-regular main-title">Dengarku</h1>
+    <h2 class="poetsen-one-regular subtitle">Dengar lagu dari aku untuk aku</h2>
+  </div>
+
+  <div class="login-container">
+    <form id="loginForm">
+      <label for="username">Username:</label>
+      <input type="text" id="username" class="login-input" required placeholder="Masukan Email/Username">
+      
+      <label for="password">Password:</label>
+      <input type="password" id="password" class="login-input" required placeholder="Password">
+      
+      <button type="submit" class="login-btn" id="loginButton">Login</button>
+    </form>
+    
+    <div class="separator">
+      <div class="separator-line"></div>
+      <span class="separator-text">ATAU</span>
+      <div class="separator-line"></div>
+    </div>
+    
+      <a href="register.php" class="register-btn">DAFTAR</a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('loginForm');
+const loginButton = document.getElementById('loginButton');
+      const inputs = document.querySelectorAll('.login-input');
+      const loginContainer = document.querySelector('.login-container');
+
+      // Add interactive effects to musical notes
+      const notes = document.querySelectorAll('.music-note');
+      notes.forEach(note => {
+        note.addEventListener('click', function() {
+          this.style.animation = 'none';
+          setTimeout(() => {
+            this.style.animation = 'float 6s ease-in-out infinite';
+          }, 10);
+        });
+      });
+
+ form.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  loginButton.innerHTML = '<span class="loading"></span>🎵 Masuk...';
+  loginButton.disabled = true;
+
+  // Delay animasi lalu langsung pindah halaman
+  setTimeout(() => {
+    window.location.href = "DasboardDengarkuu1.html"; // ejaannya sesuai
+  }, 1000);
+});
+
+      // Add floating animation to inputs on focus
+      inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+          this.style.transform = 'translateY(-2px)';
+        });
+        
+        input.addEventListener('blur', function() {
+          this.style.transform = 'translateY(0)';
+        });
+      });
+
+      // Add subtle animation on page load
+      setTimeout(() => {
+        loginContainer.style.opacity = '1';
+        loginContainer.style.transform = 'translateY(0)';
+      }, 100);
+    });
+    if (data.success) {
+  window.location.href = "DasboardDengarkuu1.html";
+}
+  </script> 
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>DengarKu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;500;400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: #fff;
+    }
+    .sidebar {
+      width: 230px;
+      background: #ff9eb5;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .sidebar .logo {
+      font-size: 38px;
+      font-weight: bold;
+      color: #fff;
+      margin-left: 18px;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+      font-family: 'Montserrat', serif;
+    }
+    .sidebar .menu {
+      width: 100%;
+      margin-bottom: 30px;
+    }
+    .sidebar .menu-item {
+      display: flex;
+      align-items: center;
+      font-size: 25px;
+      color: #ffd1e6;
+      font-weight: 600;
+      padding: 15px 0 15px 24px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .sidebar .menu-item:hover {
+      background: #ffe2f0;
+    }
+    .sidebar .menu-item i {
+      margin-right: 18px;
+      font-size: 26px;
+    }
+    .sidebar .bottom {
+      margin-top: auto;
+      width: 100%;
+      padding-bottom: 25px;
+    }
+    .sidebar .bottom .menu-item {
+      font-size: 22px;
+      color: #ffd1e6;
+      font-weight: 600;
+    }
+    .main {
+      margin-left: 230px;
+      background: #fff;
+      min-height: 100vh;
+    }
+    .topbar {
+      background: #ff9eb5;
+      padding: 18px 0 18px 0;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .topbar .logo {
+      font-size: 38px;
+      font-weight: bold;
+      color: #fff;
+      margin-left: 30px;
+      margin-right: 30px;
+      font-family: 'Montserrat', serif;
+    }
+    .topbar .searchbar {
+      flex: 1;
+      background: #ffd1e6;
+      border-radius: 25px;
+      padding: 12px 25px;
+      font-size: 22px;
+      border: none;
+      outline: none;
+      color: #555;
+      margin-right: 20px;
+    }
+    .topbar .icon {
+      font-size: 34px;
+      color: #fff;
+      margin-right: 30px;
+    }
+    .content {
+      padding: 40px 60px;
+      background: #ffe2f0;
+      min-height: calc(100vh - 60px);
+      border-radius: 40px 40px 0 0;
+      margin-top: 0;
+    }
+    .content h1 {
+      color: #ff9eb5;
+      font-size: 54px;
+      font-weight: bold;
+      margin-bottom: 35px;
+    }
+    .trending-list {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .trending-card {
+      background: #fff;
+      border-radius: 18px;
+      width: 240px;
+      box-shadow: 0 2px 12px #f8cbe7a0;
+      padding-bottom: 20px;
+      position: relative;
+      transition: box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .trending-card img, .trending-card .art {
+      width: 100%;
+      height: 180px;
+      border-radius: 18px 18px 0 0;
+      object-fit: cover;
+      background: #eee;
+      display: block;
+    }
+    .trending-card .art {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 70px;
+      background: #111;
+      color: #fff;
+    }
+    .trending-card .play-btn {
+      position: absolute;
+      right: 18px;
+      bottom: 130px;
+      background: #ff9eb5;
+      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 32px;
+      border: none;
+      box-shadow: 0 2px 8px #f8cbe7a0;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .trending-card .play-btn:hover {
+      background: #ffb3d1;
+    }
+    .trending-card .title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #222;
+      margin: 18px 0 2px 18px;
+      align-self: flex-start;
+    }
+    .trending-card .desc {
+      font-size: 15px;
+      color: #888;
+      margin-left: 18px;
+      align-self: flex-start;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">DengarKu</div>
+    <div class="menu">
+      <div class="menu-item"><i>🏠</i>Home</div>
+
+       <a href="Playlist-Dengarku.html" class="menu-item" style="text-decoration: none; color: inherit;">
+      <div class="menu-item"><i>🎵</i>Playlist</div>
+</a>
+    </div>
+    <div class="bottom">
+      <a href="LogOut-Dengarku.html" class="menu-item" style="text-decoration: none; color: inherit;">
+    <i>🔓</i>Log Out
+</a>
+    </div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div class="logo">DengarKu</div>
+      <input class="searchbar" placeholder="Lagu apa yang ingin kamu putar?" />
+      <div class="icon">🎵</div>
+    </div>
+    <div class="content">
+      <h1>Lagu Trending</h1>
+      <div class="trending-list">
+<div class="trending-card">
+  <img src="NadinAmizah.jpeg" alt="Nadin Amijjah"/>
+  <button class="play-btn" onclick="togglePlay()">▶</button>
+  <div class="title">Nadin Amijjah</div>
+  <div class="desc">Perempuan gila</div>
+  
+  <audio id="audio1" src="Nadin_Amizah_Rayuan_Perempuan_Gila_Lirik_Lagu_8aCDrT0jAE0_140.mp3"></audio>
+</div>
+<script>
+  const audio = document.getElementById('audio1');
+  const playBtn = document.querySelector('.play-btn');
+  function togglePlay() {
+    if (audio.paused) {
+      audio.play();
+      playBtn.textContent = '⏸'; 
+    } else {
+      audio.pause();
+      playBtn.textContent = '▶'; 
+    }
+  }
+  audio.addEventListener('ended', () => {
+    playBtn.textContent = '▶';
+  });
+</script>
+
+<div class="trending-card">
+  <img src="OliviaRodrigo.jpeg" alt="Olivia Rodrigo"/>
+  <button class="play-btn" onclick="togglePlay2()">▶</button>
+  <div class="title">Olivia Rodrigo</div>
+  
+  <audio id="audio2" src="OliviaRodrigodejavu.mp3"></audio>
+</div>
+<script>
+  const audio2 = document.getElementById('audio2');
+  const playBtn2 = document.querySelector('.trending-card:nth-of-type(2) .play-btn');
+
+  function togglePlay2() {
+    if (audio2.paused) {
+      audio2.play().then(() => {
+        playBtn2.textContent = '⏸'; 
+      }).catch(err => {
+        console.error('Gagal memutar audio:', err);
+      });
+    } else {
+      audio2.pause();
+      playBtn2.textContent = '▶'; 
+    }
+  }
+  audio2.addEventListener('ended', () => {
+    playBtn2.textContent = '▶'; 
+  });
+</script>
+
+<div class="trending-card">
+  <img src="backtofriends.jpg" alt="Sombr"/>
+  <button class="play-btn" onclick="togglePlay3()">▶</button>
+  <div class="title">Sombr</div>
+  <div class="desc">Back to Friends</div>
+  
+  <audio id="audio3" src="sombrBacktofriends.mp3"></audio>
+</div>
+<script>
+  const audio3 = document.getElementById('audio3');
+  const playBtn3 = document.querySelector('.trending-card:nth-of-type(3) .play-btn');
+
+  function togglePlay3() {
+    if (audio3.paused) {
+      audio3.play().then(() => {
+        playBtn3.textContent = '⏸'; 
+      }).catch(err => {
+        console.error('Gagal memutar audio:', err);
+      });
+    } else {
+      audio3.pause();
+      playBtn3.textContent = '▶'; 
+    }
+  }
+  
+  audio3.addEventListener('ended', () => {
+    playBtn3.textContent = '▶'; 
+  });
+</script>
+        <!-- Card 4 -->
+<div class="trending-card">
+  <div class="art">
+    <svg width="120" height="60" viewBox="0 0 120 60">
+      <polyline points="0,30 10,40 20,20 30,50 40,10 50,55 60,5 70,55 80,10 90,50 100,20 110,40 120,30"
+        style="fill:none;stroke:#fff;stroke-width:4"/>
+    </svg>
+  </div>
+  <button class="play-btn" onclick="togglePlay4()">▶</button>
+  <div class="title">Arctic Monkeys</div>
+  <div class="desc">I Wanna Be Yours</div>
+  
+  <!-- Audio element tanpa controls -->
+  <audio id="audio4" src="IwannabeyoursArticMonkeys.mp3"></audio>
+</div>
+<script>
+  const audio4 = document.getElementById('audio4');
+  const playBtn4 = document.querySelector('.trending-card:nth-of-type(4) .play-btn');
+  
+  function togglePlay4() {
+    if (audio4.paused) {
+      audio4.play().then(() => {
+        playBtn4.textContent = '⏸';  // Ganti ikon jadi pause saat diputar
+      }).catch(err => {
+        console.error('Gagal memutar audio:', err);
+      });
+    } else {
+      audio4.pause();
+      playBtn4.textContent = '▶';   // Kembali ke ikon play saat dijeda
+    }
+  }
+  audio4.addEventListener('ended', () => {
+    playBtn4.textContent = '▶';  // Reset ikon saat audio selesai
+  });
+</script>
+       <!-- Card 5 -->
+<div class="trending-card">
+  <img src="LanaDelrey.jpeg" alt="Lana Del Rey"/>
+  <button class="play-btn" onclick="togglePlay5()">▶</button>
+  <div class="title">Lana Del Rey</div>
+  <div class="desc">Young and Beautiful</div>
+  
+  <!-- Audio element tanpa controls -->
+  <audio id="audio5" src="LanaDelRey-Young.mp3"></audio>
+</div>
+<script>
+  const audio5 = document.getElementById('audio5');
+  const playBtn5 = document.querySelector('.trending-card:nth-of-type(5) .play-btn');
+  
+  function togglePlay5() {
+    if (audio5.paused) {
+      audio5.play().then(() => {
+        playBtn5.textContent = '⏸';  // Ganti ikon jadi pause saat diputar
+      }).catch(err => {
+        console.error('Gagal memutar audio:', err);
+      });
+    } else {
+      audio5.pause();
+      playBtn5.textContent = '▶';   // Kembali ke ikon play saat dijeda
+    }
+  }
+  audio5.addEventListener('ended', () => {
+    playBtn5.textContent = '▶';  // Reset ikon saat audio selesai
+  });
+</script>
+<!-- Card 6 -->
+<div class="trending-card">
+  <img src="Twiwice.jpg" alt="Twice Song"/>
+  <button class="play-btn" onclick="togglePlay6()">▶</button>
+  <div class="title">What is Love</div>
+  <div class="desc">Twice</div>
+  
+  <!-- Audio element tanpa controls -->
+  <audio id="audio6" src="WhatIsLove-Twice.mp3"></audio>
+</div>
+<script>
+  const audio6 = document.getElementById('audio6');
+  const playBtn6 = document.querySelector('.trending-card:nth-of-type(6) .play-btn');
+  
+  function togglePlay6() {
+    if (audio6.paused) {
+      audio6.play().then(() => {
+        playBtn6.textContent = '⏸';  // Ganti ikon jadi pause saat diputar
+      }).catch(err => {
+        console.error('Gagal memutar audio:', err);
+      });
+    } else {
+      audio6.pause();
+      playBtn5.textContent = '▶';   // Kembali ke ikon play saat dijeda
+    }
+  }
+  audio6.addEventListener('ended', () => {
+    playBtn6.textContent = '▶';  // Reset ikon saat audio selesai
+  });
+</script>
+<!-- Card 7 -->
+<div class="trending-card">
+  <img src="Mangu.jpg" alt="Fest"/>
+  <button class="play-btn" onclick="togglePlay7()">▶</button>
+  <div class="title">Fourtwnty</div>
+  <div class="desc">Mangu</div>
+  
+  <!-- Audio element tanpa controls -->
+  <audio id="audio7" src="FourtwntyMangu.mp3"></audio>
+</div>
+<script>
+  const audio7 = document.getElementById('audio7');
+  const playBtn7 = document.querySelector('.trending-card:nth-of-type(7) .play-btn');
+  
+  function togglePlay7() {
+    if (audio7.paused) {
+      audio7.play().then(() => {
+        playBtn7.textContent = '⏸';  // Ganti ikon jadi pause saat diputar
+      }).catch(err => {
+        console.error('Gagal memutar audio:', err);
+      });
+    } else {
+      audio7.pause();
+      playBtn7.textContent = '▶';   // Kembali ke ikon play saat dijeda
+    }
+  }
+  audio7.addEventListener('ended', () => {
+    playBtn5.textContent = '▶';  // Reset ikon saat audio selesai
+  });
+</script>
+<!-- Card 8 -->
+<div class="trending-card">
+  <img src="IllitTickTack.jpg" alt="Illit"/>
+  <button class="play-btn" onclick="togglePlay8()">▶</button>
+  <div class="title">Illit</div>
+  <div class="desc">Tick-Tack</div>
+  
+  <!-- Audio element tanpa controls -->
+  <audio id="audio8" src="ILLIT-Tick-Tack.mp3"></audio>
+</div>
+<script>
+  const audio8 = document.getElementById('audio8');
+  const playBtn8 = document.querySelector('.trending-card:nth-of-type(8) .play-btn');
+  
+  function togglePlay8() {
+    if (audio8.paused) {
+      audio8.play().then(() => {
+        playBtn8.textContent = '⏸';  // Ganti ikon jadi pause saat diputar
+      }).catch(err => {
+        console.error('Gagal memutar audio:', err);
+      });
+    } else {
+      audio8.pause();
+      playBtn8.textContent = '▶';   // Kembali ke ikon play saat dijeda
+    }
+  }
+  audio8.addEventListener('ended', () => {
+    playBtn8.textContent = '▶';  // Reset ikon saat audio selesai
+  });
+</script>
+<script>
+  const searchInput = document.querySelector('.searchbar');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      const filter = this.value.toLowerCase();
+      const cards = document.querySelectorAll('.trending-card');
+
+      cards.forEach(card => {
+        const title = card.querySelector('.title')?.textContent.toLowerCase() || '';
+        const desc = card.querySelector('.desc')?.textContent.toLowerCase() || '';
+
+        if (title.includes(filter) || desc.includes(filter)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  }
+</script>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
